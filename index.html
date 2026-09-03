@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Deep Learning | Interactive Question Bank &amp; Descriptive Solutions</title>
+  <meta name="description" content="Comprehensive, interactive page-wise slideshow and descriptive exam-ready solutions for all 239 questions in the Deep Learning Question Bank, featuring custom SVG diagrams and step-by-step mathematical calculations.">
+  
+  <!-- Modern Typography (Google Fonts: Inter & Fira Code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600;700&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- KaTeX for Beautiful Mathematical Equations (Local Vendor with 0ms latency) -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="vendor/katex/contrib/auto-render.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="style.css?v=3.0">
+</head>
+<body>
+
+  <!-- App Layout with Left Navmenu and Main Content -->
+  <div class="app-layout" id="appLayout">
+    <!-- Left Navigation Menu (Syllabus & Progress Sidebar) -->
+    <aside class="left-sidebar" id="leftSidebar" aria-label="Course Navigator">
+      <div class="sidebar-header">
+        <div class="sidebar-title-row">
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <div class="brand-icon" style="width: 28px; height: 28px; font-size: 0.85rem;" aria-hidden="true">DL</div>
+            <span class="sidebar-heading">Syllabus &amp; Revision</span>
+          </div>
+          <button class="sidebar-toggle-mini-btn" id="sidebarCollapseBtn" title="Toggle Sidebar" aria-label="Toggle Sidebar">
+            ◀
+          </button>
+        </div>
+        
+        <!-- Overall Progress Mastery Card -->
+        <div class="sidebar-progress-card">
+          <div class="sidebar-progress-info">
+            <span class="sidebar-progress-val" id="sidebarProgressText">0 / 239 (0%)</span>
+          </div>
+          <div class="sidebar-progress-bar-bg">
+            <div class="sidebar-progress-bar-fill" id="sidebarProgressFill"></div>
+          </div>
+        </div>
+
+        <!-- Sidebar Category Filters -->
+        <div class="sidebar-filter-pills" id="sidebarFilterPills">
+          <button class="side-pill active" data-type="all">All (239)</button>
+          <button class="side-pill" data-type="Numerical Problem">🔢 Numericals</button>
+          <button class="side-pill" data-type="bookmarked">★ Saved</button>
+          <button class="side-pill" data-type="completed">✓ Done</button>
+        </div>
+
+        <!-- Sidebar Live Question Search -->
+        <div class="sidebar-search-box">
+          <input type="text" class="sidebar-search-input" id="sidebarSearchInput" placeholder="Filter questions or formulas..." aria-label="Quick search in sidebar">
+        </div>
+      </div>
+
+      <!-- Scrollable Units & Questions List -->
+      <nav class="sidebar-units-container" id="sidebarUnitsContainer" aria-label="Units & Topics">
+        <!-- Injected dynamically via app.js -->
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="main-content-wrapper">
+      <!-- Main Stage Container -->
+      <main class="main-content" id="mainContent">
+        <!-- MODE 1: PAGE-WISE SLIDESHOW VIEW -->
+        <section class="slideshow-view" id="slideshowView" aria-label="Question Slide">
+          <!-- Dynamic Question Card -->
+          <article class="slide-card" id="slideCard">
+            <!-- Rendered dynamically via app.js -->
+          </article>
+
+          <!-- Sleek Slideshow Navigation Dock -->
+          <nav class="slideshow-nav-footer" id="slideshowNavFooter" aria-label="Slide Navigation">
+            <div class="nav-controls">
+              <!-- Previous Button -->
+              <button class="nav-btn btn-prev" id="prevBtn" aria-label="Previous Question">
+                <span class="btn-arrow">←</span>
+                <span>Previous</span>
+              </button>
+
+              <!-- Slide Jumper Input & Total Indicator -->
+              <div class="jumper-controls">
+                <span class="jumper-label">Question</span>
+                <input type="number" min="1" max="239" class="jumper-input" id="jumperInput" value="1" aria-label="Jump to Question Number">
+                <span class="jumper-total">of <strong id="totalSlidesSpan">239</strong></span>
+              </div>
+
+              <!-- Compact Keyboard Shortcuts Pill -->
+              <div class="shortcut-hints">
+                <span title="Arrow Keys or Space to Navigate"><kbd class="kbd">←</kbd> <kbd class="kbd">→</kbd> Flip</span>
+                <span title="Press B to Bookmark"><kbd class="kbd">B</kbd> Star</span>
+                <span title="Press M to Mark Done"><kbd class="kbd">M</kbd> Done</span>
+                <span title="Press F for Fullscreen"><kbd class="kbd">F</kbd> Expand</span>
+              </div>
+
+              <!-- Next Button -->
+              <button class="nav-btn btn-next" id="nextBtn" aria-label="Next Question">
+                <span>Next</span>
+                <span class="btn-arrow">→</span>
+              </button>
+            </div>
+          </nav>
+        </section>
+
+        <!-- MODE 2: CONTINUOUS DOCUMENT VIEW -->
+        <section class="document-view" id="documentView" aria-label="Continuous Exam Revision View">
+          <!-- Continuous Feed of All Questions -->
+          <div class="document-feed" id="documentFeed">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Drawer Modal: Table of Contents & Quick Search -->
+  <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true">
+    <aside class="drawer-panel" id="drawerPanel" role="dialog" aria-label="Quick Question Navigator">
+      <div class="drawer-header">
+        <h3>📚 All 239 Questions</h3>
+        <button class="close-drawer-btn" id="closeDrawerBtn" aria-label="Close Drawer">✕</button>
+      </div>
+      <div class="drawer-search-box">
+        <input type="text" class="search-input" id="drawerSearchInput" placeholder="Search keywords, formulas, or question titles..." aria-label="Filter questions">
+      </div>
+      <div class="drawer-items-list" id="drawerItemsList">
+        <!-- Injected dynamically -->
+      </div>
+    </aside>
+  </div>
+
+  <!-- Application Scripts -->
+  <script src="questions_data.js?v=3.0"></script>
+  <script src="app.js?v=3.0"></script>
+</body>
+</html>
